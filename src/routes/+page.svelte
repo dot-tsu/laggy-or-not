@@ -41,9 +41,9 @@
     >
       {#each games as { name, image, available }}
         <article
-          class={available
-            ? "cursor-pointer"
-            : "[&>img]:grayscale cursor-not-allowed"}
+          class="{available
+            ? "cursor-pointer hover:scale-105 transition-transform"
+            : "[&>img]:grayscale cursor-not-allowed"}"
         >
           <img src={image} alt={name} />
           <h3>{name} {available ? "" : "(Work in progress)"}</h3>
