@@ -7,9 +7,6 @@
       available: true,
       ips: {
         LAS: "151.106.249.1",
-        LAN: "104.160.136.3",
-        EUW: "104.160.141.3",
-        NA: "104.160.131.3",
       },
     },
     {
@@ -33,62 +30,72 @@
   ];
 
   let selectedGame = games[0];
+  let averagePingTime = 0;
+  let pinging = false;
+  let pingInterval = null;
 
   async function pingServer() {
     const selectedServer = document.getElementById("server-select").value;
-    const numPings = 20; 
-    let totalPingTime = 0;
 
-    for (let i = 0; i < numPings; i++) {
-      try {
-        const start = performance.now();
-        await fetch(selectedServer, { method: "HEAD" });
-        const end = performance.now();
-        const pingTime = end - start;
-        totalPingTime += pingTime;
-      } catch (error) {
-        alert(`Ping attempt ${i + 1} failed: ${error.message}`);
-      }
+    try {
+      const start = performance.now();
+      await fetch(selectedServer, { method: "HEAD" });
+      const end = performance.now();
+      const pingTime = end - start;
+      averagePingTime = pingTime.toFixed(0);
+    } catch (error) {
+      alert(`Ping failed: ${error.message}`);
     }
 
-    if (totalPingTime > 0) {
-      const averagePingTime = totalPingTime / numPings;
-      alert(
-        `Average Ping: ${averagePingTime.toFixed(0)} ms`
-      );
+    if (pinging) {
+      pingInterval = setTimeout(pingServer, 1000); // Ping every 1 second (adjust as needed)
     }
+  }
+
+  function startPinging() {
+    pinging = true;
+    pingServer();
+  }
+
+  function stopPinging() {
+    pinging = false;
+    clearTimeout(pingInterval);
   }
 </script>
 
-<main class="bg-richblack/60 min-h-[90vh]">
-  <h1 class="text-center">
-    <span class="text-8xl font-bold">LAGGY</span><span
-      class="font-light text-4xl block"
-      >OR <span class="text-8xl font-bold block">NOT</span></span
-    >
-  </h1>
-  <section class="m-10 text-xl p-5">
-    <label for="server-select">Select your server</label>
-
+<main class="bg-richblack/60 min-h-[90vh] p-10">
+  <div
+  class="pt-5 {averagePingTime > 1
+    ? 'opacity-100'
+    : 'opacity-0'} transition-opacity"
+>
+  <h2 class="text-center text-8xl rounded-sm font-bold">
+    {averagePingTime}
+  </h2>
+  <p class="text-center text-lg">ms</p>
+</div>
+  <section class="text-xl m-5 rounded-md">
     <form id="ping-form">
       <select
         id="server-select"
         name="server"
         class="block my-5 rounded-sm border-2 border-white p-2 bg-richblack/50 w-full"
       >
-        <option value="" disabled selected>Please choose an option</option>
+        <option value="" disabled selected>Select a server</option>
         {#each Object.keys(selectedGame.ips) as ip}
           <option value={selectedGame.ips[ip]}>{ip}</option>
         {/each}
       </select>
       <button
         class="w-full bg-richblack/50 rounded-sm p-2 border-2 border-white hover:bg-white hover:text-richblack transition-colors"
-        on:click={pingServer}>Ping!</button
+        on:click={pinging ? stopPinging : startPinging}
+        >{pinging ? "Stop" : "Ping!"}</button
       >
     </form>
+   
   </section>
-  <section class="m-10 text-xl p-5">
-    <h2 class="py-5 text-4">Select a game</h2>
+  <section class="text-xl p-5">
+    <h2 class="py-5">Select a game</h2>
     <div
       class="grid gap-5 [&>article]:relative [&>article]:shadow-xl [&>article>img]:rounded-lg [&>article>img]:h-full [&>article>img]:max-w-full [&>article]:rounded-lg [&>article>h3]:rounded-b-lg [&>article>h3]:absolute [&>article>h3]:bottom-0 [&>article>h3]:p-5 [&>article>h3]:bg-richblack/50 [&>article>h3]:w-full"
     >
