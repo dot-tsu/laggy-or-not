@@ -33,12 +33,38 @@
   ];
 
   let selectedGame = games[0];
+
+  async function pingServer() {
+    const selectedServer = document.getElementById("server-select").value;
+    const numPings = 20; 
+    let totalPingTime = 0;
+
+    for (let i = 0; i < numPings; i++) {
+      try {
+        const start = performance.now();
+        await fetch(selectedServer, { method: "HEAD" });
+        const end = performance.now();
+        const pingTime = end - start;
+        totalPingTime += pingTime;
+      } catch (error) {
+        alert(`Ping attempt ${i + 1} failed: ${error.message}`);
+      }
+    }
+
+    if (totalPingTime > 0) {
+      const averagePingTime = totalPingTime / numPings;
+      alert(
+        `Average Ping: ${averagePingTime.toFixed(0)} ms`
+      );
+    }
+  }
 </script>
 
 <main class="bg-richblack/60 min-h-[90vh]">
-  <h1 class="font-black text-center">
-    <span class="text-8xl">LAGGY</span><span class="font-normal text-4xl block"
-      >OR NOT</span
+  <h1 class="text-center">
+    <span class="text-8xl font-bold">LAGGY</span><span
+      class="font-light text-4xl block"
+      >OR <span class="text-8xl font-bold block">NOT</span></span
     >
   </h1>
   <section class="m-10 text-xl p-5">
@@ -57,7 +83,7 @@
       </select>
       <button
         class="w-full bg-richblack/50 rounded-sm p-2 border-2 border-white hover:bg-white hover:text-richblack transition-colors"
-        >Ping!</button
+        on:click={pingServer}>Ping!</button
       >
     </form>
   </section>
