@@ -48,7 +48,7 @@
     }
 
     if (pinging) {
-      pingInterval = setTimeout(pingServer, 1000); // Ping every 1 second (adjust as needed)
+      pingInterval = setTimeout(pingServer, 1000);
     }
   }
 
@@ -79,22 +79,22 @@
       <select
         id="server-select"
         name="server"
-        class="block my-5 rounded-sm border-2 border-white p-2 bg-richblack/50 w-full"
+        class="block my-5 rounded-sm border-2 border-white p-4 bg-richblack/50 w-full"
       >
-        <option value="" disabled selected>Select a server</option>
+        <option value="" class="bg-silverlakeblue" selected>Select a server</option>
         {#each Object.keys(selectedGame.ips) as ip}
-          <option value={selectedGame.ips[ip]}>{ip}</option>
+          <option value={selectedGame.ips[ip]} class="bg-silverlakeblue ">{ip}</option>
         {/each}
       </select>
       <button
-        class="w-full bg-richblack/50 rounded-sm p-2 border-2 border-white hover:bg-white hover:text-richblack transition-colors"
+        class="w-full bg-richblack/50 rounded-sm p-4 border-2 border-white hover:bg-white hover:text-richblack transition-colors"
         on:click={pinging ? stopPinging : startPinging}
         >{pinging ? "Stop" : "Ping!"}</button
       >
     </form>
    
   </section>
-  <section class="text-xl p-5">
+  <section class="text-xl p-3">
     <h2 class="py-5">Select a game</h2>
     <div
       class="grid gap-5 [&>article]:relative [&>article]:shadow-xl [&>article>img]:rounded-lg [&>article>img]:h-full [&>article>img]:max-w-full [&>article]:rounded-lg [&>article>h3]:rounded-b-lg [&>article>h3]:absolute [&>article>h3]:bottom-0 [&>article>h3]:p-5 [&>article>h3]:bg-richblack/50 [&>article>h3]:w-full"
