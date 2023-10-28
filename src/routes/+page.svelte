@@ -8,7 +8,7 @@
       ips: {
         LAS: "151.106.249.1",
         LAN: "138.0.15.100",
-        NA: "192.64.170.107"
+        NA: "192.64.170.107",
       },
     },
     {
@@ -19,8 +19,7 @@
       ips: {
         "MEX/MIA": "192.207.0.1",
         SCL: "151.106.249.1",
-        
-      }
+      },
     },
     {
       name: "Counter-Strike 2",
@@ -38,24 +37,36 @@
 
   let selectedGame = games[0];
   let averagePingTime = 0;
+  let pingInterval;
   let pinging = false;
-  let pingInterval = null;
+  const pingTimes = []; 
+  const maxPingRecords = 10; 
 
   async function pingServer() {
     const selectedServer = document.getElementById("server-select").value;
 
     try {
       const start = performance.now();
-      await fetch(selectedServer, { method: "HEAD" });
+      await fetch(selectedServer, { method: "GET", mode: "no-cors" });
       const end = performance.now();
       const pingTime = end - start;
-      averagePingTime = pingTime.toFixed(0);
+
+      pingTimes.push(parseInt(pingTime.toFixed(0)));
+
+      if (pingTimes.length > maxPingRecords) {
+        pingTimes.shift();
+      }
+
+      const totalPingTime = pingTimes.reduce((sum, time) => sum + time, 0);
+      averagePingTime = (totalPingTime / pingTimes.length).toFixed(0);
+
     } catch (error) {
       alert(`Ping failed: ${error.message}`);
     }
 
     if (pinging) {
       pingInterval = setTimeout(pingServer, 1000);
+      console.log(pingTimes)
     }
   }
 
@@ -72,15 +83,15 @@
 
 <main class="bg-richblack/60 min-h-[90vh] p-10">
   <div
-  class="pt-5 {averagePingTime > 1
-    ? 'opacity-100'
-    : 'opacity-0'} transition-opacity"
->
-  <h2 class="text-center text-8xl rounded-sm font-bold">
-    {averagePingTime}
-  </h2>
-  <p class="text-center text-lg">ms</p>
-</div>
+    class="pt-5 {averagePingTime > 1
+      ? 'opacity-100'
+      : 'opacity-0'} transition-opacity"
+  >
+    <h2 class="text-center text-8xl rounded-sm font-bold">
+      {averagePingTime}
+    </h2>
+    <p class="text-center text-lg">ms</p>
+  </div>
   <section class="text-xl m-5 rounded-md">
     <form id="ping-form">
       <select
@@ -88,9 +99,13 @@
         name="server"
         class="block my-5 rounded-sm border-2 border-white p-4 bg-richblack/50 w-full"
       >
-        <option value="" class="bg-silverlakeblue" selected>Select a server</option>
+        <option value="" class="bg-silverlakeblue" selected
+          >Select a server</option
+        >
         {#each Object.keys(selectedGame.ips) as ip}
-          <option value={selectedGame.ips[ip]} class="bg-silverlakeblue ">{ip}</option>
+          <option value={selectedGame.ips[ip]} class="bg-silverlakeblue"
+            >{ip}</option
+          >
         {/each}
       </select>
       <button
@@ -99,7 +114,6 @@
         >{pinging ? "Stop" : "Ping!"}</button
       >
     </form>
-   
   </section>
   <section class="text-xl p-3">
     <h2 class="py-5">Select a game</h2>
@@ -112,7 +126,7 @@
             ? 'cursor-pointer hover:scale-105 transition-transform'
             : '[&>img]:grayscale cursor-not-allowed'} {selectedGame.name ===
           name
-            ? 'border-2 border-x-flame '
+            ? 'border-2 border-white '
             : null}"
         >
           <img src={image} alt={name} />
