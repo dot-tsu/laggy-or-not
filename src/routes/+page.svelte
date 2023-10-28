@@ -7,6 +7,8 @@
       available: true,
       ips: {
         LAS: "151.106.249.1",
+        LAN: "138.0.15.100",
+        NA: "192.64.170.107"
       },
     },
     {
@@ -14,6 +16,11 @@
       image:
         "https://firstsportz.com/wp-content/uploads/2022/12/Valorant-year-end-1.jpg",
       available: false,
+      ips: {
+        "MEX/MIA": "192.207.0.1",
+        SCL: "151.106.249.1",
+        
+      }
     },
     {
       name: "Counter-Strike 2",
