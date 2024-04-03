@@ -13,11 +13,11 @@ export default {
     },
     extend: {
       colors: {
-        primary: "#dfe9f3",
-        secondary: "#0a141e",
-        accent: "#8fb6de",
-        content: "#25598d",
-        background: "#478ed4",
+        primary: "#9adac1",
+        secondary: "#218e63",
+        accent: "#31e69f",
+        content: "#030607",
+        background: "#e3edf2",
       },
       fontFamily: {
         notosans: ["Noto Sans", "sans"],
