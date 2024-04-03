@@ -1,17 +1,13 @@
 ---
-import "@/styles/globals.css";
-import { Button } from "@/components/ui/button";
+import Layout from "../layouts/Layout.astro";
+import PingForm from "@/sections/PingForm.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Laggy or Not</title>
-  </head>
-  <body class="font-notosans h-svh flex justify-center items-center">
-    <Button>Hello World <3</Button>
-  </body>
-</html>
+<Layout>
+  <!-- <Header /> -->
+  <main>
+    <PingForm client:load />
+  </main>
+</Layout>
+
+<style></style>

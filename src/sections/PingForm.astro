@@ -1,0 +1,110 @@
+---
+import { Button } from "@/components/ui/button";
+---
+
+<script>
+  interface PingOptions {
+    favicon?: string;
+    timeout?: number;
+    logError?: boolean;
+  }
+
+  class Ping {
+    private opt: PingOptions;
+    private favicon: string;
+    private timeout: number;
+    private logError: boolean;
+    private wasSuccess: boolean = false;
+    private img!: HTMLImageElement;
+
+    constructor(opt: PingOptions = {}) {
+      this.opt = opt;
+      this.favicon = this.opt.favicon || "/favicon.ico";
+      this.timeout = this.opt.timeout || 0;
+      this.logError = this.opt.logError || false;
+    }
+
+    ping(
+      source: string,
+      callback?: (error: string | null, pongTime: number) => void
+    ): Promise<number> {
+      return new Promise<number>((resolve, reject) => {
+        const self = this;
+        self.wasSuccess = false;
+        self.img = new Image();
+
+        self.img.onload = (e) => {
+          self.wasSuccess = true;
+          pingCheck.call(self, e);
+        };
+
+        self.img.onerror = (e) => {
+          self.wasSuccess = false;
+          pingCheck.call(self, e);
+        };
+
+        let timer: number;
+        const start = new Date();
+
+        if (self.timeout) {
+          timer = window.setTimeout(() => {
+            pingCheck.call(self, null);
+          }, self.timeout);
+        }
+
+        function pingCheck(this: Ping, e?: Event | string | null) {
+          if (timer) {
+            clearTimeout(timer);
+          }
+          const pong = new Date().getTime() - start.getTime();
+          if (!callback) {
+            return self.wasSuccess ? resolve(pong) : reject(pong);
+          } else if (typeof callback === "function") {
+            if (typeof e === "string") {
+              if (self.logError) {
+                console.error("error loading resource");
+              }
+              reject(pong);
+              return callback(e, pong);
+            } else if (!self.wasSuccess) {
+              if (self.logError) {
+                console.error("error loading resource");
+              }
+              reject(pong);
+              return callback("error", pong);
+            }
+            resolve(pong);
+            return callback(null, pong);
+          } else {
+            throw new Error("Callback is not a function.");
+          }
+        }
+
+        self.img.src = `${source}${self.favicon}?${+new Date()}`; // Trigger image load with cache buster
+      });
+    }
+  }
+
+  // Credits to https://github.com/alfg/ping.js
+
+  const pingGoogle = () => {
+    const pingInstance = new Ping();
+    pingInstance.ping("https://www.google.com/", (error, pongTime) => {
+      if (error) {
+        console.error("Error pinging Google:", error);
+      } else {
+        console.log(`Google pinged in ${pongTime} ms`);
+      }
+    });
+  };
+
+  // Add event listener to the button
+  const pingButton = document.getElementById("ping");
+  if (pingButton) {
+    pingButton.addEventListener("click", pingGoogle);
+  }
+</script>
+
+<section>
+  <Button id="ping">Ping</Button>
+</section>
