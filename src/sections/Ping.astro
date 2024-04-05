@@ -126,7 +126,6 @@ import { Button } from "@/components/ui/button";
     }));
 
     if (chartInstance) {
-      console.log(chartInstance);
       chartInstance.data.labels = data.map((row) => row.index);
       chartInstance.data.datasets[0].data = data.map((row) => row.ping);
       chartInstance.data.datasets[1].data = Array(data.length).fill(
