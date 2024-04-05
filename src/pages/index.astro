@@ -1,12 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import PingForm from "@/sections/PingForm.astro";
+import Ping from "@/sections/Ping.astro";
 ---
 
 <Layout>
   <!-- <Header /> -->
   <main>
-    <PingForm client:load />
+    <h1 class="text-center text-7xl p-10 font-extrabold">Laggy or Not</h1>
+    <Ping client:load />
   </main>
 </Layout>
 

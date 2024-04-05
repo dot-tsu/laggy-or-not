@@ -1,0 +1,238 @@
+---
+import { Button } from "@/components/ui/button";
+---
+
+<script>
+  import Chart from "chart.js/auto";
+
+  interface PingOptions {
+    favicon?: string;
+    timeout?: number;
+    logError?: boolean;
+  }
+
+  class Ping {
+    private opt: PingOptions;
+    private favicon: string;
+    private timeout: number;
+    private logError: boolean;
+    private wasSuccess: boolean = false;
+    private img!: HTMLImageElement;
+
+    constructor(opt: PingOptions = {}) {
+      this.opt = opt;
+      this.favicon = this.opt.favicon || "/favicon.ico";
+      this.timeout = this.opt.timeout || 0;
+      this.logError = this.opt.logError || false;
+    }
+
+    ping(
+      source: string,
+      callback?: (error: string | null, pongTime: number) => void
+    ): Promise<number> {
+      return new Promise<number>((resolve, reject) => {
+        const self = this;
+        self.wasSuccess = false;
+        self.img = new Image();
+
+        self.img.onload = (event) => {
+          self.wasSuccess = true;
+          pingCheck.call(self, event);
+        };
+
+        self.img.onerror = (event) => {
+          self.wasSuccess = false;
+          pingCheck.call(self, event);
+        };
+
+        let timer: number;
+        const start = new Date();
+
+        if (self.timeout) {
+          timer = window.setTimeout(() => {
+            pingCheck.call(self, null);
+          }, self.timeout);
+        }
+
+        function pingCheck(this: Ping, e?: Event | string | null) {
+          if (timer) {
+            clearTimeout(timer);
+          }
+          const pong = new Date().getTime() - start.getTime();
+          if (typeof callback === "function") {
+            if (typeof e === "string") {
+              if (this.logError) {
+                console.error("error loading resource");
+              }
+              callback(e, pong);
+            } else if (!this.wasSuccess) {
+              if (this.logError) {
+                console.error("error loading resource");
+              }
+              callback("error", pong);
+            } else {
+              callback(null, pong);
+            }
+          } else {
+            throw new Error("Callback is not a function.");
+          }
+        }
+
+        self.img.src = `${source}${self.favicon}?${+new Date()}`; // Trigger image load with cache buster
+      });
+    }
+  }
+
+  // Credits to https://github.com/alfg/ping.js
+  let pingAvg = document.getElementById("pingAvg");
+  let pingMin = document.getElementById("pingMin");
+  let pingMax = document.getElementById("pingMax");
+  const pingChart = document.getElementById("pingChart") as HTMLCanvasElement;
+  let chartInstance: Chart | null = null;
+  let pingInterval: number | null = null;
+  let isPinging = false;
+  let pingsData: number[] = [];
+
+  const handlePingResult = (pongTime: number) => {
+    pingsData.push(pongTime);
+    const averagePing =
+      pingsData.reduce((acc, value) => acc + value, 0) / pingsData.length;
+    const minPing = Math.min(...pingsData);
+    const maxPing = Math.max(...pingsData);
+    if (pingAvg && pingMin && pingMax) {
+      pingAvg.textContent = `${averagePing.toFixed(0)} ms`;
+      pingMin.textContent = `${minPing.toFixed(0)} ms`;
+      pingMax.textContent = `${maxPing.toFixed(0)} ms`;
+    }
+    updateChart();
+  };
+
+  const pingGoogle = () => {
+    const pingInstance = new Ping();
+
+    pingInstance.ping("https://www.google.com/", (error, pongTime) => {
+      if (error) {
+        console.error("Error pinging Google:", error);
+      } else {
+        handlePingResult(pongTime);
+      }
+    });
+  };
+
+  const updateChart = () => {
+    const data = pingsData.map((ping, index) => ({
+      index: index + 1,
+      ping,
+    }));
+
+    if (chartInstance) {
+      console.log(chartInstance);
+      chartInstance.data.labels = data.map((row) => row.index);
+      chartInstance.data.datasets[0].data = data.map((row) => row.ping);
+      chartInstance.data.datasets[1].data = Array(data.length).fill(
+        Math.min(...pingsData)
+      );
+      chartInstance.data.datasets[2].data = Array(data.length).fill(
+        Math.max(...pingsData)
+      );
+      chartInstance.update();
+    } else {
+      chartInstance = new Chart(pingChart, {
+        type: "line",
+        data: {
+          labels: data.map((row) => row.index),
+          datasets: [
+            {
+              label: "Your ping",
+              data: data.map((row) => row.ping),
+              tension: 0.5,
+              borderColor: "#3DA47C",
+              backgroundColor: "#3DA47C",
+            },
+            {
+              label: "Min ping",
+              data: Array(data.length).fill(Math.min(...pingsData)),
+              tension: 0.5,
+              borderColor: "#DEF7ED",
+              backgroundColor: "#DEF7ED",
+            },
+            {
+              label: "Max ping",
+              data: Array(data.length).fill(Math.max(...pingsData)),
+              tension: 0.5,
+              borderColor: "#F7E2DE",
+              backgroundColor: "#F7E2DE",
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "Ping Delay (ms)",
+              },
+            },
+            x: {
+              title: {
+                display: true,
+                text: "Number of pings",
+              },
+            },
+          },
+        },
+      });
+    }
+  };
+
+  const togglePing = () => {
+    const pingButton = document.getElementById("pingButton");
+    if (!isPinging) {
+      pingInterval = setInterval(pingGoogle, 1000);
+      isPinging = true;
+      if (pingButton) {
+        pingButton.textContent = "Stop Pinging";
+      }
+    } else {
+      if (pingInterval) {
+        clearInterval(pingInterval);
+      }
+      isPinging = false;
+      pingsData = [];
+
+      if (chartInstance) {
+        chartInstance.data.datasets[0].data = [];
+        chartInstance.data.datasets[1].data = [];
+        chartInstance.data.datasets[2].data = [];
+        chartInstance.update();
+      }
+
+      if (pingButton) {
+        pingButton.textContent = "Start Pinging";
+      }
+    }
+  };
+
+  const pingButton = document.getElementById("pingButton");
+  if (pingButton) {
+    pingButton.addEventListener("click", togglePing);
+  }
+  window.addEventListener("DOMContentLoaded", () => {
+    updateChart();
+  });
+</script>
+
+<section
+  class="w-[750px] bg-secondary/40 text-content p-5 rounded-md shadow-xl flex justify-center items-center">
+  <div class="w-3/4 mr-10">
+    <canvas id="pingChart"></canvas>
+  </div>
+  <div
+    class="w-1/4 flex flex-col gap-3 [&>p]:text-content/80 [&>p>span]:font-bold [&>p>span]:block">
+    <p>Average Ping: <span id="pingAvg">0 ms</span></p>
+    <p>Minimum Ping: <span id="pingMin">0 ms</span></p>
+    <p>Maximum Ping: <span id="pingMax">0 ms</span></p>
+  </div>
+</section>
+<Button id="pingButton" className="float-right my-3"> Start Pinging </Button>
