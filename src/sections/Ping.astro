@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
     timeout?: number;
     logError?: boolean;
   }
-
+  // Credits to https://github.com/alfg/ping.js
   class Ping {
     private opt: PingOptions;
     private favicon: string;
@@ -83,7 +83,6 @@ import { Button } from "@/components/ui/button";
     }
   }
 
-  // Credits to https://github.com/alfg/ping.js
   let pingAvg = document.getElementById("pingAvg");
   let pingMin = document.getElementById("pingMin");
   let pingMax = document.getElementById("pingMax");
