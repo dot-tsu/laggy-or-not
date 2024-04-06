@@ -20,7 +20,7 @@ export default {
         background: "#0a0c09",
       },
       fontFamily: {
-        notosans: ["Noto Sans", "sans"],
+        sans: ["Noto Sans", "sans"],
       },
       keyframes: {
         "accordion-down": {
