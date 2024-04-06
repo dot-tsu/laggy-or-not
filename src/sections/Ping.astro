@@ -93,12 +93,21 @@ import { Button } from "@/components/ui/button";
               title: {
                 display: true,
                 text: "Ping Delay (ms)",
+                color: "#f1f4f0",
               },
             },
             x: {
               title: {
                 display: true,
                 text: "Number of pings",
+                color: "#f1f4f0",
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: "#f1f4f0",
               },
             },
           },
@@ -143,16 +152,22 @@ import { Button } from "@/components/ui/button";
   });
 </script>
 
-<section class="md:w-2/4 w-[95%] bg-secondary/40 p-6 rounded-md md:flex">
+<section class="w-[95%] lg:w-3/4 max-w-[60rem] rounded-md md:flex">
   <div
-    class="flex md:flex-col justify-between md:pb-16 text-nowrap text-xs md:text-base flex-wrap [&>p>span]:font-semibold [&>p>span]:block">
-    <h2 class="text-primary">Your Stats</h2>
-    <p>Average Ping: <span id="pingAvg">0 ms</span></p>
-    <p>Minimum Ping: <span id="pingMin">0 ms</span></p>
-    <p>Maximum Ping: <span id="pingMax">0 ms</span></p>
+    class="flex md:flex-col justify-between text-nowrap text-xs md:text-base gap-5 flex-wrap [&>p]:rounded-md [&>p]:w-full [&>p]:text-center [&>p]:p-4 md:[&>p]:p-8 [&>p>span]:font-semibold [&>p>span]:block">
+    <h2 class="text-center rounded-md bg-accent/50 p-5 hidden md:block">
+      Your Stats
+    </h2>
+    <p class="bg-accent/70">
+      Average Ping: <span id="pingAvg">0 ms</span>
+    </p>
+    <p class="bg-accent/80">Minimum Ping: <span id="pingMin">0 ms</span></p>
+    <p class="bg-accent/90 mb-5 md:m-0">
+      Maximum Ping: <span id="pingMax">0 ms</span>
+    </p>
   </div>
-  <div class="w-full md:ml-5">
-    <canvas id="pingChart"></canvas>
+  <div class="flex flex-col w-full md:ml-3 bg-accent/40 p-5 rounded-md">
+    <canvas id="pingChart" class="flex-1"></canvas>
     <div class="flex justify-between items-center float-right md:float-none">
       <p class="text-xs text-content/50">
         ⓘ Toggle ping data display on graph by clicking the colored square
