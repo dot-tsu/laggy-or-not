@@ -1,15 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Ping from "@/sections/Ping.astro";
+import Header from "@/sections/Header.astro";
 ---
 
 <Layout>
-  <!-- <Header /> -->
-  <main>
-    <h1 class="text-center text-7xl p-5 font-extrabold">Laggy or Not</h1>
-    <h2 class="text-xl text-content/80 text-center font-light pb-10">
-      A free tool for checking your ping
-    </h2>
+  <Header />
+  <main class="flex justify-center items-center">
     <Ping />
   </main>
 </Layout>
