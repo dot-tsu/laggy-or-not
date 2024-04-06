@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 
 <script>
   import Chart from "chart.js/auto";
-  import Ping from "@/scripts/ping"
-  
+  import Ping from "@/scripts/ping";
+
   let pingAvg = document.getElementById("pingAvg");
   let pingMin = document.getElementById("pingMin");
   let pingMax = document.getElementById("pingMax");
@@ -115,19 +115,18 @@ import { Button } from "@/components/ui/button";
       if (pingButton) {
         pingButton.textContent = "Stop Pinging";
       }
-    } else {
-      if (pingInterval) {
-        clearInterval(pingInterval);
-      }
-      isPinging = false;
-      pingsData = [];
-
       if (chartInstance) {
         chartInstance.data.datasets[0].data = [];
         chartInstance.data.datasets[1].data = [];
         chartInstance.data.datasets[2].data = [];
         chartInstance.update();
       }
+    } else {
+      if (pingInterval) {
+        clearInterval(pingInterval);
+      }
+      isPinging = false;
+      pingsData = [];
 
       if (pingButton) {
         pingButton.textContent = "Start Pinging";
