@@ -144,16 +144,23 @@ import { Button } from "@/components/ui/button";
 </script>
 
 <section
-  class="w-[750px] bg-secondary/40 text-content p-10 rounded-md shadow-xl flex justify-center items-center">
+  class="w-[750px] bg-secondary/40 text-content px-7 py-5 rounded-md shadow-xl flex justify-center">
   <div
-    class="w-1/4 flex flex-col gap-5 [&>p]:text-content/80 [&>p>span]:font-bold [&>p>span]:block">
-    <h2 class="font-semibold">Your Stats</h2>
+    class="w-1/4 flex flex-col gap-12 [&>p]:text-content/80 [&>p>span]:font-bold [&>p>span]:block">
+    <h2 class="font-semibold text-primary">Your Stats</h2>
     <p>Average Ping: <span id="pingAvg">0 ms</span></p>
     <p>Minimum Ping: <span id="pingMin">0 ms</span></p>
     <p>Maximum Ping: <span id="pingMax">0 ms</span></p>
   </div>
-  <div class="w-3/4 mr-10">
-    <canvas id="pingChart"></canvas>
+  <div class="w-3/4">
+    <canvas id="pingChart" class="h-full"></canvas>
+    <div class="flex justify-around items-center">
+      <p class="text-xs text-content/50">
+        ⓘ Toggle ping data display on graph by clicking the colored square
+      </p>
+      <Button id="pingButton" className="float-right my-3">
+        Start Pinging
+      </Button>
+    </div>
   </div>
 </section>
-<Button id="pingButton" className="float-right my-3"> Start Pinging </Button>
