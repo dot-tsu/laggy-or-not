@@ -1,10 +1,13 @@
 ---
-
+import { Gauge } from "lucide-react";
 ---
 
-<header class="p-5">
-  <h1 class="text-center text-4xl font-extrabold">Laggy or not</h1>
-  <h2 class="text-content/80 text-center font-light">
-    A free tool for checking your ping
-  </h2>
+<header class="p-5 flex items-center justify-center">
+  <Gauge size={50}/>
+  <div class="ml-3">
+    <h1 class="text-center text-4xl font-extrabold">Laggy or not</h1>
+    <h2 class="text-content/80 mt-1 text-center font-light">
+      A free tool for checking your ping
+    </h2>
+  </div>
 </header>
