@@ -1,47 +1,60 @@
-# Astro Starter Kit: Minimal
+# Laggy or Not
 
-```sh
-npm create astro@latest -- --template minimal
+Laggy or Not is an app that allows you to easily check your ping and network latency.
+
+## Features
+
+- One-click start to begin pinging
+- Graph showing your ping over time
+- Display of average, minimum, and maximum ping times
+
+## Technologies Used
+
+- Astro
+- Tailwind CSS
+- TypeScript
+- Chart.js
+- Shadcn/UI
+
+## Installation
+
+1. Clone the project repository:
+
+```console
+git clone https://github.com/tsuramii/laggy-or-not.git
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+2. Install the dependencies:
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```console
+cd laggy-or-not
+npm install
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+3. Start the development server:
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```console
+npm run dev
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Usage
 
-## 🧞 Commands
+Simply click the "Start Pinging" button to begin checking your ping and network latency.
 
-All commands are run from the root of the project, from a terminal:
+## Contributing
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Contributions are welcome! If you'd like to contribute to the project, please follow these guidelines:
 
-## 👀 Want to learn more?
+1. Fork the repository
+2. Create a new branch for your feature or bug fix
+3. Make your changes and commit them
+4. Push your changes to your fork
+5. Submit a pull request
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## License
+
+This project is licensed under the MIT License.
+
+## Acknowledgements
+
+I would like to thank my friend Guro for the idea and name of the project.
