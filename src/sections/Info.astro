@@ -1,0 +1,44 @@
+---
+import Wired from "@/components/icons/wired.astro";
+import Tip from "@/components/ui/tip.astro";
+import { Globe, ArrowUp, Clock, ShieldCheck } from "lucide-react";
+---
+
+<section class="w-[95%] lg:w-3/4 max-w-[60rem] py-5">
+  <article class="mb-5">
+    <h2 class="text-lg font-bold">What this means</h2>
+    <p>
+      Your ping is a measure of how long it takes for your device to communicate
+      with the game server. The lower the number, the better. You want a ping of
+      <strong>70ms</strong> or less for a lag-free gaming experience.
+    </p>
+  </article>
+  <article>
+    <h2 class="text-lg font-bold">Tips to improve your ping</h2>
+    <Tip
+      title="Use a wired connection"
+      text="Connect to the internet using an ethernet cable instead of Wi-Fi.">
+      <Wired />
+    </Tip>
+    <Tip
+      title="Close background apps"
+      text="Close apps and browser tabs that you're not using to free up bandwidth.">
+      <Globe />
+    </Tip>
+    <Tip
+      title="Upgrade your internet plan"
+      text="Upgrade your internet plan for faster speeds and lower latency.">
+      <ArrowUp />
+    </Tip>
+    <Tip
+      title="Schedule downloads and updates"
+      text="Reduce network congestion by scheduling downloads and updates for off-peak hours.">
+      <Clock />
+    </Tip>
+    <Tip
+      title="Try a gaming VPN"
+      text="Use a gaming VPN to optimize your connection and reduce lag spikes.">
+      <ShieldCheck />
+    </Tip>
+  </article>
+</section>
