@@ -18,7 +18,6 @@ Laggy or Not is an app that allows you to easily check your ping and network lat
 - Tailwind CSS
 - TypeScript
 - Chart.js
-- Shadcn/UI
 
 ## Installation
 
@@ -61,4 +60,10 @@ This project is licensed under the MIT License.
 
 ## Acknowledgements
 
-I would like to thank my friend Guro for the idea and name of the project.
+I would like to thank my friend Guro for the idea and name of the project. The inspiration for this application came from the need to quickly and easily test network performance, especially when dealing with potential lag or connectivity issues.
+
+The development of Laggy or Not was a great learning experience for me, as it allowed me to explore the use of Astro, Tailwind CSS, TypeScript, and Chart.js. I debated several design choices throughout the project, such as the layout and styling of the application, the choice of visualization library, and the overall user experience.
+
+Ultimately, I decided to prioritize simplicity and ease of use, which led me to choose a minimalist design and a straightforward user flow. The use of Astro allowed me to build a fast and lightweight application, while Tailwind CSS provided a solid foundation for the styling and UI components.
+
+I'm proud of the end result and hope that Laggy or Not can be a useful tool for anyone looking to quickly test their network performance. If you have any feedback or suggestions for improvements, please don't hesitate to contribute to the project.
