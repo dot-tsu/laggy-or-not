@@ -1,5 +1,4 @@
 ---
-import { Button } from "@/components/ui/button";
 ---
 
 <script>
@@ -174,7 +173,11 @@ import { Button } from "@/components/ui/button";
       <p class="text-xs text-content/50">
         ⓘ Toggle ping data display on graph by clicking the colored square
       </p>
-      <Button id="pingButton">Start Pinging </Button>
+      <button
+        class="h-10 px-4 py-2 bg-accent/80 text-content hover:bg-accent/90 dark:text-content inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300"
+        id="pingButton"
+        >Start Pinging
+      </button>
     </div>
   </div>
 </section>
