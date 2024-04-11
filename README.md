@@ -1,5 +1,9 @@
 # Laggy or Not
 
+#### Video Demo:  [CS50x Final Project - Laggy or not](https://www.youtube.com/watch?v=kpTySdkt8uM)
+
+#### Description
+
 Laggy or Not is an app that allows you to easily check your ping and network latency.
 
 ## Features
