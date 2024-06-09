@@ -34,7 +34,7 @@ The Laggy or Not project was built using the following technologies:
 
 ```console
 
-git clone https://github.com/tsuramii/laggy-or-not.git
+git clone https://github.com/dot-tsu/laggy-or-not.git
 
 ```
 
